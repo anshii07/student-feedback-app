@@ -1,34 +1,17 @@
-import os
+import pytest
+from app import is_valid_niet_email
 
-def test_index_file_exists():
-    assert os.path.exists("index.html")
+def test_valid_niet_email():
+    assert is_valid_niet_email("student@niet.co.in") is True
+    assert is_valid_niet_email("abc123@niet.co.in") is True
+    assert is_valid_niet_email("NAME@NIET.CO.IN") is True  # case-insensitive
 
-def test_css_file_exists():
-    assert os.path.exists("style.css")
+def test_invalid_email_domains():
+    assert is_valid_niet_email("student@gmail.com") is False
+    assert is_valid_niet_email("user@niet.ac.in") is False
+    assert is_valid_niet_email("test@example.com") is False
+    assert is_valid_niet_email("someone@niet.co") is False
 
-def test_javascript_file_exists():
-    assert os.path.exists("script.js")
-
-def test_name_field():
-    with open("index.html", "r", encoding="utf-8") as file:
-        content = file.read()
-
-    assert 'id="name"' in content
-
-def test_course_field():
-    with open("index.html", "r", encoding="utf-8") as file:
-        content = file.read()
-
-    assert 'id="course"' in content
-
-def test_feedback_field():
-    with open("index.html", "r", encoding="utf-8") as file:
-        content = file.read()
-
-    assert 'id="feedback"' in content
-
-def test_submit_button():
-    with open("index.html", "r", encoding="utf-8") as file:
-        content = file.read()
-
-    assert 'type="submit"' in content
+def test_empty_and_none_like():
+    assert is_valid_niet_email("") is False
+    assert is_valid_niet_email(None) is False
