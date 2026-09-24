@@ -1,0 +1,28 @@
+name: Student Feedback CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check files
+        run: |
+          echo "Checking Student Feedback Application..."
+          test -f index.html
+          test -f style.css
+          test -f script.js
+          echo "All required files are present."
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
